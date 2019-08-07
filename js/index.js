@@ -49,6 +49,7 @@
  let navLink = Array.from(document.querySelectorAll(".nav-link"));
  navLink.forEach(link => {
    link.addEventListener("focus", event => {
+     event.preventDefault();
      link.style.backgroundColor = "yellow";
    });
  });
@@ -65,7 +66,7 @@
    alert("Please do not resize the window!");
  });
  
-  // "scroll" event - not working
+  // "scroll" event - not working 
  let textContent = document.querySelector(".text-content");
  textContent.addEventListener("scroll", event => {
    alert("Please read the contents fully!");
@@ -74,17 +75,31 @@
   // "select" event
  // Can be done only on "type =text and textarea"
  
-  // "dblclick" event - toggle colors on the Sign-up buttons
- let signUpBtnArr = Array.from(document.querySelectorAll(".btn"));
- signUpBtnArr.forEach(btn => {
-   btn.addEventListener("dblclick", event => {
-     if (btn.style.backgroundColor === "yellow") {
-       btn.style.backgroundColor = "white";
-       btn.style.color = "blue";
-     } else {
-       btn.style.backgroundColor = "yellow";
-       btn.style.color = "green";
-     }
-     event.stopPropagation();
-   });
- });
+//"dblclick" event - toggle colors on the Sign-up buttons
+let contentPickEle = document.querySelector(".content-pick");
+contentPickEle.addEventListener("dblclick", event => {
+  if (event.target.className === "btn") {
+    event.stopPropagation();
+    TweenMax.to(event.target, 1, {
+      y: 30,
+      ease: Bounce.easeOut
+    });
+
+    if (event.target.style.backgroundColor === "yellow") {
+      event.target.style.backgroundColor = "white";
+      event.target.color = "blue";
+    } else {
+      event.target.style.backgroundColor = "yellow";
+      event.target.style.color = "green";
+    }
+    TweenMax.yoyo();
+  }
+});
+
+// animation for buttons
+TweenMax.staggerFrom(
+  ".btn",
+  2,
+  { scale: 0, opacity: 0, delay: 0, ease: Elastic.easeOut },
+  0.5
+);
